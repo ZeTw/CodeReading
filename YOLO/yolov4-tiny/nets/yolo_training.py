@@ -2,7 +2,27 @@ import torch
 import torch.nn as nn
 import math
 import numpy as np
+'''
+YOLOLoss类
+ 初始化函数
+    __init__(self, anchors, num_classes, img_size, label_smooth=0, cuda=True, normalize=True)
+        anchors:由yolo_anchors.txt中的anchors数据组成的 n行2列的np数组
+        num_classes:类别个数
+        num_anchors:anchors的个数
+        bbox_attrs: bounding box 的参数量 (x,y,w,h,c)+类别个数
+        img_size:图片规格
+        feature_length: 
+        label_smooth:标签平滑度
+        
+        cuda:是否使用cuda
+        normalize:是否进行归一化处理
 
+ 前向传播
+    forward(self, input, targets=None)
+    由于该类继承自nn.Module forward方法是该类的魔术方法，在实例化对象时传入参数就会自动调用该方法
+    计算损失时，需要传入的是该网络的最终输出(yolo-head)，在yolov4-tiny 代码中该网络的最终输出为 13*13*255 26*26*255
+   
+'''
 class YOLOLoss(nn.Module):
     def __init__(self, anchors, num_classes, input_shape, cuda, anchors_mask = [[6,7,8], [3,4,5], [0,1,2]], label_smoothing = 0):
         super(YOLOLoss, self).__init__()
